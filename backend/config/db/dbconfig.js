@@ -2,7 +2,7 @@ export default {
     bd: {
         host: 'localhost',
         port: 3050,
-        database: 'C:\\Users\\Maksim\\Documents\\All\\Programming\\projects\\CarMarket\\backend\\config\\db\\CAR_STORE.fdb',
+        database: '/root/CarMarket/backend/config/db/CAR_STORE.FDB',
         user: 'SYSDBA',
         password: 'masterkey',
         charset: 'UTF-8',
