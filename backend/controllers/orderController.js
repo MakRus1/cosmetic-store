@@ -19,13 +19,10 @@ const createOrder = asyncHandler(async (req, res) => {
         }
 
         const itemsFromDB = await db.query(`
-                select 
-                c.*, 
-                mark.name || ' ' || model.name as name 
-            from cars c 
-            left join sp_model model on model.id = c.sp_model_id 
-            left join sp_mark mark on mark.id = model.sp_mark_id
-            where c.id in (${orderItems.map((x) => x.ID)}) 
+            select 
+                p.* 
+            from product p 
+            where p.id in (${orderItems.map((x) => x.ID)}) 
             order by meta$cr_timestamp desc`
         )
 
@@ -34,7 +31,7 @@ const createOrder = asyncHandler(async (req, res) => {
 
             if (!matchingItemFromDB) {
                 res.status(404)
-                throw new Error(`Автомобиль не найден: ${itemFromClient.ID}`)
+                throw new Error(`Продукт не найден: ${itemFromClient.ID}`)
             }
 
             return {
@@ -66,11 +63,13 @@ const createOrder = asyncHandler(async (req, res) => {
             return res.json({error: "Невозможно создать заказ"})    
         }
 
+        console.log(order[0])
+
         orderItems.map(async (itemFromClient) => {
             const mx = await db.query(`
-                insert into mx_order_car (
+                insert into mx_order_product (
                     order_id,
-                    car_id,
+                    product_id,
                     quantity
                 ) values (
                     ${order[0].ID},
@@ -198,14 +197,11 @@ const findOrderById = asyncHandler(async (req, res) => {
         if (order[0]) {
             const items = await db.query(`
                 select
-                    c.*,
-                    oc.quantity,
-                    mark.name || ' ' || model.name as name    
-                from mx_order_car oc
-                left join cars c on c.id = oc.car_id 
-                left join sp_model model on model.id = c.sp_model_id
-                left join sp_mark mark on mark.id = model.sp_mark_id 
-                where oc.order_id = ${req.params.id}`
+                    p.*,
+                    op.quantity 
+                from mx_order_product op
+                left join product p on p.id = op.product_id 
+                where op.order_id = ${req.params.id}`
             )
             res.status(201).json({order: order[0], items: items})
         } else {
@@ -298,8 +294,8 @@ const calculateTotalSalesByMarkId = asyncHandler(async (req, res) => {
         const sales = await db.query(`
             select
                 *
-            from mark_sales
-            where sp_mark_id is null or sp_mark_id = ${req.params.id}`
+            from manufacturer_sales
+            where sp_maunfacturer_id is null or sp_maunfacturer_id = ${req.params.id}`
         )
 
         res.status(201).json(sales)
@@ -348,14 +344,11 @@ const getCheque = asyncHandler(async (req, res) => {
 
             const items = await db.query(`
                 select
-                    c.*,
-                    oc.quantity,
-                    mark.name || ' ' || model.name as name    
-                from mx_order_car oc
-                left join cars c on c.id = oc.car_id 
-                left join sp_model model on model.id = c.sp_model_id
-                left join sp_mark mark on mark.id = model.sp_mark_id 
-                where oc.order_id = ${req.params.id}`
+                    p.*,
+                    op.quantity  
+                from mx_order_product op
+                left join product p on p.id = op.product_id 
+                where op.order_id = ${req.params.id}`
             )
 
             worksheet.cell(3, 1).string('Наименование')

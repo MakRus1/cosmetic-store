@@ -2,10 +2,10 @@ export default {
     bd: {
         host: 'localhost',
         port: 3050,
-        database: '/root/CarMarket/backend/config/db/CAR_STORE.FDB',
+        database: 'C:\\Users\\Maksim\\Documents\\All\\Programming\\projects\\CosmeticStore\\backend\\config\\db\\COSMETIC_STORE.fdb',
         user: 'SYSDBA',
         password: 'masterkey',
-        charset: 'UTF-8',
+        charset: 'UNICODE_FSS',
         lowercase_keys: true,
         role: null,
         pageSize: 4096

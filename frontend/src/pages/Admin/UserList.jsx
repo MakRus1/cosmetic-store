@@ -61,7 +61,7 @@ const UserList = () => {
     }
 
     return (
-        <div className="p-4 ml-14">
+        <div className="p-4 ml-14 bg-[#f6fdd5] text-black">
             <AdminMenu /> 
             <h1 className="text-2xl font-semibold mb-4">Пользователи</h1>
             {

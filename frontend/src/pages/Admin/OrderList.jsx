@@ -13,7 +13,7 @@ const OrderList = () => {
     }, [refetch])
 
     return (
-        <div className="container mx-auto pl-20">
+        <div className="container mx-auto pl-20 bg-[#f6fdd5] text-black">
             <AdminMenu />
             <h2 className="text-2xl font-semibold mb-4">Мои заказы</h2>
 
@@ -39,7 +39,7 @@ const OrderList = () => {
                                 <td className="py-2">{order.META$CR_TIMESTAMP}</td>
                                 <td className="py-2">{order.TOTAL_PRICE}</td>
                                 <td className="py-2">{order.IS_PAID ? (
-                                    <p className="p1 text-center bg-green-400 w-[8rem] rounded-full">
+                                    <p className="p1 text-center bg-[#799400] w-[8rem] rounded-full">
                                         Оплачен
                                     </p>
                                 ) : (
@@ -48,7 +48,7 @@ const OrderList = () => {
                                     </p>
                                 )}</td>
                                 <td className="py-2">{order.IS_DELIVERED ? (
-                                    <p className="p1 text-center bg-green-400 w-[8rem] rounded-full">
+                                    <p className="p1 text-center bg-[#799400] w-[8rem] rounded-full">
                                         Доставлен
                                     </p>
                                 ) : (
@@ -58,7 +58,7 @@ const OrderList = () => {
                                 )}</td>
                                 <td className="py-2">
                                     <Link to={`/order/${order.ID}`}>
-                                        <button className="bg-green-400 text-black py-2 px-3 rounded">Детали</button>
+                                        <button className="bg-[#799400] text-white py-2 px-3 rounded">Детали</button>
                                     </Link>
                                 </td>
                             </tr>

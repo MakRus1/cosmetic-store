@@ -45,7 +45,7 @@ const PlaceOrder = () => {
         <>
             <ProgressSteps step1 step2 step3 />
 
-            <div className="container mx-auto mt-8">
+            <div className="container mx-auto mt-8 bg-[#f6fdd5] text-black">
                 {
                     cart.cart.length === 0 ? (
                         <Message>Корзина пуста</Message>
@@ -55,7 +55,7 @@ const PlaceOrder = () => {
                                 <thead>
                                     <tr>
                                         <td className="px-1 py-2 text-left align-top">Картинка</td>
-                                        <td className="px-1 py-2 text-left">Автомобиль</td>
+                                        <td className="px-1 py-2 text-left">Продукт</td>
                                         <td className="px-1 py-2 text-left">Количество</td>
                                         <td className="px-1 py-2 text-left">Цена</td>
                                     </tr>
@@ -63,7 +63,7 @@ const PlaceOrder = () => {
                                 <tbody>
                                     {cart.cart.map((item, index) => (
                                         <tr key={index}>
-                                            <td className="p-2"><img src={item.CAR_IMAGE} alt={item.NAME} className="w-16 h-16 object-cover" /></td>
+                                            <td className="p-2"><img src={item.PRODUCT_IMAGE} alt={item.NAME} className="w-16 h-16 object-cover" /></td>
                                             <td className="px-1 py-2 text-left"><Link to={`/car/${item.ID}`}>{item.NAME}</Link></td>
                                             <td className="px-1 py-2 text-left">{item.QUANTITY}</td>
                                             <td className="px-1 py-2 text-left">{item.PRICE * item.QUANTITY} ₽</td>    
@@ -76,7 +76,7 @@ const PlaceOrder = () => {
                 }
                 <div className="mt-8 ml-[8rem] mr-[8rem]">
                     <h2 className="text-2xl font-semibold mb-5">Итого</h2>
-                    <div className="flex justify-between flex-wrap p-8 bg-gray-700">
+                    <div className="flex justify-between flex-wrap p-8">
                         <ul className="text-lg">
                             <li>
                                 <span className="font-semibold mb-4">Сумма: </span>
@@ -94,7 +94,7 @@ const PlaceOrder = () => {
 
                     <button 
                         type="button" 
-                        className="bg-green-500 text-white py-2 px-4 rounded-full text-lg w-full mt-4" 
+                        className="bg-[#799400] text-white py-2 px-4 rounded-full text-lg w-full mt-4" 
                         disabled={cart.cart.length === 0}
                         onClick={placeOrderHandler}
                     >

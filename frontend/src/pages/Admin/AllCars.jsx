@@ -17,22 +17,22 @@ const AllCars = () => {
     }
 
     if (isError) {
-        return <div>Ошибка загрузки автомобилей</div>
+        return <div>Ошибка загрузки продуктов</div>
     }
 
     return (
         <div className="container pl-20">
-            <div className="flex flex-col md:flex-row">
+            <div className="flex flex-col md:flex-row bg-[#f6fdd5] text-black">
                 <div className="p-3">
                     <div className="text-xl font-bold h-12">
-                        Автомобили ({cars.length})
+                        Продукты ({cars.length})
                     </div>
 
                     <div className="flex flex-wrap items-center">
                         {cars?.map((car) => (
                             <Link key={car.ID} to={`/admin/car/update/${car.ID}`} className="w-1/4 mb-4 overflow-hidden">
                                 <div className="block">
-                                    <img src={car.CAR_IMAGE} alt={car.NAME} className="w-3/4 object-cover" />
+                                    <img src={car.PRODUCT_IMAGE} alt={car.NAME} className="w-3/4 object-cover" />
                                     
                                     <h5 className="text-xl font-semibold mb-2">
                                         {car.NAME}
@@ -44,7 +44,7 @@ const AllCars = () => {
                                     bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 
                                     dark:hover:bg-green-700 dark:focus:ring-green-800"
                                     >
-                                        Изменить автомобиль
+                                        Изменить продукт
                                     </Link>
                                       
                                 </div>

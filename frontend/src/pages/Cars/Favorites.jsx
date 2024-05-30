@@ -20,7 +20,7 @@ const Favorites = () => {
 
     if (!userInfo) {
         return (
-            <h1 className="p-4 ml-16 text-2xl font-semibold mb-4">
+            <h1 className="p-4 ml-16 text-2xl font-semibold mb-4 bg-[#f6fdd5] text-black">
                 Необходимо {" "} 
                 <Link to='/register' className="text-blue-500 hover:underline">
                     зарегестрироваться
@@ -34,11 +34,11 @@ const Favorites = () => {
     }
 
     if (error) {
-        return <h1 className="p-4 ml-16 text-2xl font-semibold mb-4">Ошибка</h1>
+        return <h1 className="p-4 ml-16 text-2xl font-semibold mb-4 bg-[#f6fdd5] text-black">Ошибка</h1>
     }
 
     return (
-        <div>
+        <div className="text-black">
             <h1 className="p-4 ml-16 text-2xl font-semibold mb-4">Понравившиеся</h1>
             <div className="flex justify-around">
                 <div className="xl:block lg:hidden md:hidden sm:hidden">

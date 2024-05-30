@@ -3,11 +3,11 @@ import HeartIcon from "./HeartIcon";
 
 const SmallCar = ({car}) => {
     return (
-        <div className="w-[20rem] ml-[2rem] p-3">
+        <div className="w-[20rem] ml-[2rem] p-3 bg-[#f9fde9] text-black border mb-6 rounded-lg border border-[#799400]">
             <div className="relative">
                 <div className="p-54">
                     <HeartIcon car={car} />
-                    <img src={car.CAR_IMAGE} alt={car.NAME} className="h-auto rounded" />
+                    <img src={car.PRODUCT_IMAGE} alt={car.NAME} className="h-auto rounded" />
                     <Link to={`/car/${car.ID}`}>
                         <h2 className="flex justify-between items-center">
                             <div>{car.NAME}</div>

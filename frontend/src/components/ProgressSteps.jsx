@@ -2,7 +2,7 @@ const ProgressSteps = ({step1, step2, step3}) => {
     return (
         <div className="flex justify-center items-center space-x-4">
             <div className={`${step1 ? "text-green-500" : "text-gray-300"}`}>
-                <span className="ml-2">Автомобили</span>
+                <span className="ml-2">Продукты</span>
                 <div className="mt-2 text-lg text-center">✅</div>
             </div>
 
@@ -25,7 +25,7 @@ const ProgressSteps = ({step1, step2, step3}) => {
                     ""
                 )} 
 
-                <div className={`${step3 ? "text-green-500" : "text-gray-300"}`}>
+                <div className={`${step3 ? "text-green-500" : "text-black"}`}>
                     <span className={`${!step3 ? 'ml-[10rem]' : ''}`}>Итого</span>
                     {step1 && step2 && step3 ? (
                         <div className="mt-2 text-lg text-center">✅</div>

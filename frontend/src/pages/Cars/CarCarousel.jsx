@@ -26,15 +26,15 @@ const CarCarousel = () => {
                 <Message variant='danger'>
                     {error?.data?.message || error.message}
                 </Message>
-            ) : <Slider {...settings} className="xl:w-[50rem] lg:w-[50rem] md:w-[56rem] sm:w-[40rem] sm:block">
+            ) : <Slider {...settings} className="xl:w-[50rem] lg:w-[50rem] md:w-[56rem] sm:w-[40rem] sm:block text-black">
                     {
-                        cars.map(({CAR_IMAGE, ID, NAME, PRICE}) => (
+                        cars.map(({PRODUCT_IMAGE, ID, NAME, PRICE}) => (
                             <div key={ID}>
                                 <Link to={`/car/${ID}`}>
-                                    <img src={CAR_IMAGE} alt={NAME} className="w-full rounded-lg object-cover h-[30rem]" />
+                                    <img src={PRODUCT_IMAGE} alt={NAME} className="w-full rounded-lg object-cover h-[50rem]" />
 
                                     <div className="flex justify-between w-[20rem]">
-                                        <div className="one">
+                                        <div className="one text-2xl">
                                             <h2>{NAME}</h2>
                                             <p>{PRICE} ₽</p>
                                         </div>

@@ -43,7 +43,7 @@ const Order = () => {
     })
 
     return isLoading ? (<Loader />) : error ? (<Message variant='danger'>{error.data.message}</Message>) :(
-        <div className="container flex flex-col pl-[10rem] md:flex-row">
+        <div className="container flex flex-col pl-[10rem] md:flex-row bg-[#f6fdd5] text-black pb-8 border border-[#799400]">
             <div className="md:w-2/3 pr-4">
                 <div className="border gray-300 mt-5 pb-4 mb-5">
                     {order.items.length === 0 ? (
@@ -54,7 +54,7 @@ const Order = () => {
                                 <thead className="border-b-2">
                                     <tr>
                                         <th className="p-2">Изображение</th>
-                                        <th className="p-2">Автомобиль</th>
+                                        <th className="p-2">Продукт</th>
                                         <th className="p-2">Количество</th>
                                         <th className="p-2">Цена</th>
                                         <th className="p-2">Итого</th>
@@ -65,7 +65,7 @@ const Order = () => {
                                     {order.items.map((item, index) => (
                                         <tr key={index}>
                                             <th className="p-2">
-                                                <img src={item.CAR_IMAGE} alt={item.NAME} className="w-[15rem] object-cover rounded-lg" />
+                                                <img src={item.PRODUCT_IMAGE} alt={item.NAME} className="w-[15rem] object-cover rounded-lg" />
                                             </th>
                                             <th className="p-2">
                                                 <Link to={`/car/${item.ID}`} className="text-blue-500">
@@ -115,7 +115,7 @@ const Order = () => {
                 {!order.order.IS_PAID ? (
                     <button 
                         type="button" 
-                        className="bg-green-500 text-white py-2 px-4 rounded-full text-lg w-full mt-4" 
+                        className="bg-[#799400] text-white py-2 px-4 rounded-full text-lg w-full mt-4" 
                         onClick={handlePaidOrder}
                     >
                         Оплатить
@@ -124,7 +124,7 @@ const Order = () => {
                     <div>
                         <button 
                             type="button" 
-                            className="bg-green-500 text-white py-2 px-4 rounded-full text-lg w-full mt-4" 
+                            className="bg-[#799400] text-white py-2 px-4 rounded-full text-lg w-full mt-4" 
                             onClick={handleDownloadCheque}
                         >
                             Скачать чек
@@ -138,7 +138,7 @@ const Order = () => {
                         {order.order.IS_DELIVERED ? (
                             <Message variant='success'>Доставлен: {order.order.TIME_DELIVERED}</Message>
                         ) : (
-                            <button type="button" className="bg-green-500 text-white w-full py-2" onClick={handleDeliverOrder}>Доставлен</button>
+                            <button type="button" className="bg-[#799400] text-white w-full py-2" onClick={handleDeliverOrder}>Доставлен</button>
                         )}
                     </div>
                 ) : (

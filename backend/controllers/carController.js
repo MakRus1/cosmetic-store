@@ -4,19 +4,19 @@ import jwt from 'jsonwebtoken'
 
 const createCar = asyncHandler(async (req, res) => {
     try {
-        const { price, topSpeed, engineVolume, model, image, inStock } = req.fields
+        const { name, price, description, manufacturer, image, inStock } = req.fields
 
         switch (true) {
+            case !name:
+                return res.json({error: "Название является обязательным полем"})
             case !image:
                 return res.json({error: "Картинка является обязательным полем"})
-            case !model:
-                return res.json({error: "Модель является обязательным полем"})
+            case !manufacturer:
+                return res.json({error: "Производитель является обязательным полем"})
             case !price:
                 return res.json({error: "Цена является обязательным полем"})
-            case !topSpeed:
-                return res.json({error: "Максимальная скорость является обязательным полем"})
-            case !engineVolume:
-                return res.json({error: "Объем двигателя является обязательным полем"})
+            case !description:
+                return res.json({error: "Описание является обязательным полем"})
             case !inStock:
                 return res.json({error: "Количество на складе является обязательным полем"})
         }
@@ -26,53 +26,53 @@ const createCar = asyncHandler(async (req, res) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
         const car = await db.query(`
-            insert into cars (
-                sp_model_id,
-                car_image, 
+            insert into product (
+                sp_manufacturer_id,
+                name,
+                product_image, 
                 price, 
-                top_speed,
-                engine_volume,
-                in_stock,
+                description,
+                quantity,
                 meta$cr_user_id, 
                 meta$upd_user_id
             ) values (
-                ${model}, 
+                ${manufacturer}, 
+                '${name}',
                 '${image}',
                 ${price}, 
-                ${topSpeed}, 
-                ${engineVolume},
+                '${description}', 
                 ${inStock},
                 ${decoded.userId}, 
                 ${decoded.userId}
             ) returning *`)
 
         if (!car[0]) {
-            return res.json({error: "Невозможно создать автомобиль"})    
+            return res.json({error: "Невозможно создать продукт"})    
         }
 
         res.status(201).json(car)
 
     } catch(error) {
         res.status(400)
-        throw new Error("Неверные данные автомобиля")
+        throw new Error("Неверные данные продукта")
     }
 })
 
 const updateCar = asyncHandler(async (req, res) => {
     try {
-        const { price, topSpeed, engineVolume, model, image, inStock } = req.fields
+        const { name, price, description, manufacturer, image, inStock } = req.fields
 
         switch (true) {
+            case !name:
+                return res.json({error: "Название является обязательным полем"})
             case !image:
                 return res.json({error: "Картинка является обязательным полем"})
-            case !model:
-                return res.json({error: "Модель является обязательным полем"})
+            case !manufacturer:
+                return res.json({error: "Производитель является обязательным полем"})
             case !price:
                 return res.json({error: "Цена является обязательным полем"})
-            case !topSpeed:
-                return res.json({error: "Максимальная скорость является обязательным полем"})
-            case !engineVolume:
-                return res.json({error: "Объем двигателя является обязательным полем"})
+            case !description:
+                return res.json({error: "Описание является обязательным полем"})
             case !inStock:
                 return res.json({error: "Количество на складе является обязательным полем"})
         }
@@ -82,32 +82,32 @@ const updateCar = asyncHandler(async (req, res) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
         const car = await db.query(`
-            update cars set
-                sp_model_id = ${model},
-                car_image = '${image}', 
+            update product set
+                name = '${name}',
+                sp_manufacturer_id = ${manufacturer},
+                product_image = '${image}', 
                 price = ${price}, 
-                top_speed = ${topSpeed}, 
-                engine_volume = ${engineVolume},
-                in_stock = ${inStock}, 
+                description = '${description}', 
+                quantity = ${inStock}, 
                 meta$upd_user_id = ${decoded.userId}
             where id = ${req.params.id}
             returning *`)
 
         if (!car[0]) {
-            return res.json({error: "Невозможно изменить автомобиль"})    
+            return res.json({error: "Невозможно изменить продукт"})    
         }
 
         res.json(car)
 
     } catch(error) {
         res.status(400)
-        throw new Error("Неверные данные автомобиля")
+        throw new Error("Неверные данные продукта")
     }
 })
 
 const removeCar = asyncHandler(async (req, res) => {
     try {
-        const car = await db.query(`delete from cars where id = ${req.params.id} returning *`)
+        const car = await db.query(`delete from product where id = ${req.params.id} returning *`)
         res.json(car)
     } catch(error) {
         res.status(400)
@@ -120,14 +120,11 @@ const fetchCars = asyncHandler(async (req, res) => {
         const pageSize = 6
         const keyword = req.query.keyword ? {name: {$redex: req.query.keyword, $options: "i"}} : {}
 
-        const count = await db.query(`select count(*) from cars`)
+        const count = await db.query(`select count(*) from product`)
         const cars = await db.query(`select first ${pageSize} 
-                                        c.*, 
-                                        mark.name || ' ' || model.name as name 
-                                    from cars c 
-                                    left join sp_model model on model.id = c.sp_model_id 
-                                    left join sp_mark mark on mark.id = model.sp_mark_id
-                                    where c.in_stock > 0`)
+                                        p.* 
+                                    from product p 
+                                    where p.quantity > 0`)
         
         res.json({cars: cars, page: 1, pages: Math.ceil(parseInt(count[0].COUNT) / pageSize), hasMore: false})
     } catch (error) {
@@ -139,16 +136,13 @@ const fetchCars = asyncHandler(async (req, res) => {
 const fetchCarById = asyncHandler(async (req, res) => {
     try {
         const car = await db.query(`select first 1 
-                                        c.*, 
-                                        mark.name || ' ' || model.name as name 
-                                    from cars c 
-                                    left join sp_model model on model.id = c.sp_model_id 
-                                    left join sp_mark mark on mark.id = model.sp_mark_id 
-                                    where c.id = ${req.params.id}`)
+                                        p.* 
+                                    from product p 
+                                    where p.id = ${req.params.id}`)
 
         if (!car[0]) {
             res.status(404)
-            throw new Error("Автомобиль не найден")
+            throw new Error("Продукт не найден")
         }
 
         res.json(car[0])
@@ -161,11 +155,8 @@ const fetchCarById = asyncHandler(async (req, res) => {
 const fetchAllCars = asyncHandler(async (req, res) => {
     try {
         const cars = await db.query(`select first 12 
-                                        c.*, 
-                                        mark.name || ' ' || model.name as name 
-                                    from cars c 
-                                    left join sp_model model on model.id = c.sp_model_id 
-                                    left join sp_mark mark on mark.id = model.sp_mark_id 
+                                        * 
+                                    from product
                                     order by meta$cr_timestamp desc`)
                                     
         res.json(cars)
@@ -178,11 +169,8 @@ const fetchAllCars = asyncHandler(async (req, res) => {
 const fetchLastCars = asyncHandler(async (req, res) => {
     try {
         const cars = await db.query(`select first 5 
-                                        c.*, 
-                                        mark.name || ' ' || model.name as name 
-                                    from cars c 
-                                    left join sp_model model on model.id = c.sp_model_id 
-                                    left join sp_mark mark on mark.id = model.sp_mark_id 
+                                        * 
+                                    from product
                                     order by meta$cr_timestamp desc`)
                                     
         res.json(cars)
@@ -201,12 +189,8 @@ const filteredCars = asyncHandler(async (req, res) => {
         if (radio.length) args.price = {$gte: radio[0], $lte: radio[1]}
 
         const cars = await db.query(`select 
-                                        c.*, 
-                                        mark.name || ' ' || model.name as name 
-                                    from cars c 
-                                    left join sp_model model on model.id = c.sp_model_id 
-                                    left join sp_mark mark on mark.id = model.sp_mark_id
-                                    where sp_mark_id in (${args.marks}) 
+                                        p.* 
+                                    from product p 
                                     order by meta$cr_timestamp desc`)
                                     
         res.json(cars)

@@ -46,7 +46,7 @@ const Navigation = () => {
     return (
         <div 
             style={{zIndex: 999}} 
-            className={`${showSidebar ? 'hidden' : 'flex'} xl:flex lg:flex md:hidden sm:hidden flex-col justify-between p-4 text-white bg-black w-[4%] hover:w-[15%] h-[100vh] fixed`}
+            className={`${showSidebar ? 'hidden' : 'flex'} xl:flex lg:flex md:hidden sm:hidden flex-col justify-between p-4 text-black bg-[#f6fdd5] border border-[#799400] w-[4%] hover:w-[15%] h-[100vh] fixed`}
             id='navigation-container'
         >
             <div className="flex flex-col justify-center space-y-4">
@@ -71,8 +71,8 @@ const Navigation = () => {
             </div>
 
             <div className="relative">
-                <button onClick={toggleDropdown} className="flex items-center text-gray-8000 focus:outline-none">
-                    {userInfo ? (<span className="hidden nav-item-name text-white">{userInfo.username}</span>) : (<></>)}
+                <button onClick={toggleDropdown} className="flex items-center text-black focus:outline-none">
+                    {userInfo ? (<span className="hidden nav-item-name text-black">{userInfo.username}</span>) : (<></>)}
                     {userInfo && (
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +81,7 @@ const Navigation = () => {
                             }`}
                             fill="none"
                             viewBox="0 0 24 24"
-                            stroke="white"
+                            stroke="black"
                         >
                             <path
                                 strokeLinecap="round"
@@ -94,20 +94,17 @@ const Navigation = () => {
                 </button>
 
                 {dropdownOpen && userInfo && (
-                    <ul className={`absolute right-0 space-y-1 bg-gray-800 text-gray-300 ${!userInfo.isAdmin ? "-top-20" : "-top-80"}`}>
+                    <ul className={`absolute right-0 space-y-1 bg-[#799400] text-white ${!userInfo.isAdmin ? "-top-20" : "-top-80"}`}>
                         {Boolean(userInfo.isAdmin) && (
                             <>
                                 <li>
                                     <Link to='/admin/dashboard' onClick={() => setDropdownOpen(false)} className="block px-4 py-2 hover:bg-gray-600">Инструменты</Link>
                                 </li>
                                 <li>
-                                    <Link to='/admin/carlist' onClick={() => setDropdownOpen(false)} className="block px-4 py-2 hover:bg-gray-600">Автомобили</Link>
+                                    <Link to='/admin/carlist' onClick={() => setDropdownOpen(false)} className="block px-4 py-2 hover:bg-gray-600">Продукты</Link>
                                 </li>
                                 <li>
-                                    <Link to='/admin/marklist' onClick={() => setDropdownOpen(false)} className="block px-4 py-2 hover:bg-gray-600">Марки</Link>
-                                </li>
-                                <li>
-                                    <Link to='/admin/modellist' onClick={() => setDropdownOpen(false)} className="block px-4 py-2 hover:bg-gray-600">Модели</Link>
+                                    <Link to='/admin/marklist' onClick={() => setDropdownOpen(false)} className="block px-4 py-2 hover:bg-gray-600">Бренды</Link>
                                 </li>
                                 <li>
                                     <Link to='/admin/orderlist' onClick={() => setDropdownOpen(false)} className="block px-4 py-2 hover:bg-gray-600">Заказы</Link>

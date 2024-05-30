@@ -9,9 +9,9 @@ const createFavorite = asyncHandler(async (req, res) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
         const favorite = await db.query(`
-            insert into favorites_cars (
+            insert into favorites_products (
                 user_id,
-                car_id
+                product_id
             ) values (
                 ${decoded.userId}, 
                 ${req.params.carId}
@@ -25,7 +25,7 @@ const createFavorite = asyncHandler(async (req, res) => {
 
     } catch(error) {
         res.status(400)
-        throw new Error("Не существует такого автомобиля")
+        throw new Error("Не существует такого продукта")
     }
 })
 
@@ -35,7 +35,7 @@ const removeFavorite = asyncHandler(async (req, res) => {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
-        const favorite = await db.query(`delete from favorites_cars where car_id = ${req.params.carId} and user_id = ${decoded.userId} returning *`)
+        const favorite = await db.query(`delete from favorites_products where product_id = ${req.params.carId} and user_id = ${decoded.userId} returning *`)
         res.json(favorite)
     } catch(error) {
         res.status(400)
@@ -49,16 +49,13 @@ const fetchFavorites = asyncHandler(async (req, res) => {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
-        const count = await db.query(`select count(*) from favorites_cars where user_id = ${decoded.userId}`)
+        const count = await db.query(`select count(*) from favorites_products where user_id = ${decoded.userId}`)
 
         const favorites = await db.query(`
             select 
-                mark.name || ' ' || model.name as name,
-                c.* 
-            from favorites_cars fc 
-            left join cars c on c.id = fc.car_id 
-            left join sp_model model on model.id = c.sp_model_id
-            left join sp_mark mark on mark.id = model.sp_mark_id 
+                p.* 
+            from favorites_products fc 
+            left join product p on p.id = fc.product_id 
             where fc.user_id = ${decoded.userId}`)  
 
         res.json({count: parseInt(count[0].COUNT), favorites: favorites})    
@@ -74,7 +71,7 @@ const fetchIsFavorite = asyncHandler(async (req, res) => {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
-        const favorites = await db.query(`select first 1 car_id from favorites_cars where car_id = ${req.params.carId} and user_id = ${decoded.userId}`)
+        const favorites = await db.query(`select first 1 product_id from favorites_products where product_id = ${req.params.carId} and user_id = ${decoded.userId}`)
 
         res.json(favorites[0])    
     } catch (error) {

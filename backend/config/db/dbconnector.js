@@ -7,7 +7,7 @@ class Db {
     async query(ssql, params=[]) {
         return new Promise(res => {
             const connectionConfig = {
-                connectionString: `DSN=CarStoreODBC;UID=${cfg.bd.user};PWD=${cfg.bd.password};DATABASE=${cfg.bd.host}/${cfg.bd.port}:${cfg.bd.database};CHARSET=${cfg.bd.charset}`,
+                connectionString: `DSN=CosmeticStoreODBC;UID=${cfg.bd.user};PWD=${cfg.bd.password};DATABASE=${cfg.bd.host}/${cfg.bd.port}:${cfg.bd.database};CHARSET=${cfg.bd.charset}`,
                 connectionTimeout: 10,
                 loginTimeout: 10
             }

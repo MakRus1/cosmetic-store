@@ -30,7 +30,7 @@ const MarkList = () => {
         e.preventDefault()
 
         if (!name) {
-            toast.error('Введите название марки')
+            toast.error('Введите название производителя')
             return
         }
 
@@ -41,7 +41,7 @@ const MarkList = () => {
                 return
             } 
             setName("")
-            toast.success(`${result.name} создана`)
+            toast.success(`${result.name} создан`)
             refetch()
         } catch (error) {
             console.log(error)
@@ -66,7 +66,7 @@ const MarkList = () => {
                 return
             } 
             setName("")
-            toast.success(`${result.name} обновлена`)
+            toast.success(`${result.name} обновлен`)
             setModalVisible(false)
             refetch()
         } catch (error) {
@@ -85,7 +85,7 @@ const MarkList = () => {
                 return
             } 
             setName("")
-            toast.success(`${result.NAME} удалена`)
+            toast.success(`${result.NAME} удален`)
             setModalVisible(false)
             refetch()
 
@@ -97,8 +97,8 @@ const MarkList = () => {
 
     return <div className="ml-[10rem] flex flex-col md:flex-row">
         <AdminMenu /> 
-        <div className="md:w-3/4 p-3">
-            <div className="h-12">Управление марками</div>
+        <div className="md:w-3/4 p-3 bg-[#f6fdd5] border border-[#799400] text-black">
+            <div className="h-12">Управление производителями</div>
             <MarkForm value={name} setValue={setName} handleSubmit={handleCreateMark} />
             <br />
             <hr />
@@ -107,7 +107,7 @@ const MarkList = () => {
                 {marks?.map(mark => (
                     <div key={mark.ID}>
                         <button 
-                            className="bg-gray border border-green-500 text-green-500 py-2 px-4 rounded-lg m-3 hover:bg-green-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+                            className="bg-[#f6fdd5] border border-[#799400] text-[#799400] py-2 px-4 rounded-lg m-3 hover:bg-[#799400] hover:text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
                             onClick={() => {{
                                 setModalVisible(true)
                                 setSelectedMark(mark)

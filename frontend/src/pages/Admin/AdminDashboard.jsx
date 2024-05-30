@@ -21,7 +21,7 @@ const AdminDashboard = () => {
             tooltip: {
                 theme: 'dark',
             },
-            colors: ['#00E396'],
+            colors: ['#799400'],
             dataLabels: {
                 enabled: true,
             },
@@ -92,10 +92,10 @@ const AdminDashboard = () => {
     return (
         <>
             <AdminMenu />
-            <section className='xl:ml-[4rem] md:ml-[0rem]'>
+            <section className='xl:ml-[4rem] md:ml-[0rem] bg-[#f6fdd5]'>
                 <div className='w-[80%] flex justify-around flex-wrap'>
-                    <div className="rounded-lg bg-black p-5 w-[20rem] mt-5">
-                        <div className="font-bold rounded-full w-[3rem] bg-green-500 text-center p-3">
+                    <div className="rounded-lg bg-[#f6fdd5] border border-[#799400] text-black p-5 w-[20rem] mt-5">
+                        <div className="font-bold rounded-full w-[3rem] bg-[#799400] text-center p-3">
                             ₽
                         </div>
 
@@ -105,8 +105,8 @@ const AdminDashboard = () => {
                         </h1>
                     </div>
 
-                    <div className="rounded-lg bg-black p-5 w-[20rem] mt-5">
-                        <div className="font-bold rounded-full w-[3rem] bg-green-500 text-center p-3">
+                    <div className="rounded-lg bg-[#f6fdd5] border border-[#799400] text-black p-5 w-[20rem] mt-5">
+                        <div className="font-bold rounded-full w-[3rem] bg-[#799400] text-center p-3">
                             🙉
                         </div>
 
@@ -116,8 +116,8 @@ const AdminDashboard = () => {
                         </h1>
                     </div>
 
-                    <div className="rounded-lg bg-black p-5 w-[20rem] mt-5">
-                        <div className="font-bold rounded-full w-[3rem] bg-green-500 text-center p-3">
+                    <div className="rounded-lg bg-[#f6fdd5] border border-[#799400] text-black p-5 w-[20rem] mt-5">
+                        <div className="font-bold rounded-full w-[3rem] bg-[#799400] text-center p-3">
                             🛒
                         </div>
 

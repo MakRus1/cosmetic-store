@@ -42,7 +42,7 @@ const Cart = () => {
 
     if (!userInfo) {
         return (
-            <h1 className="p-4 ml-16 text-2xl font-semibold mb-4">
+            <h1 className="p-4 ml-16 text-2xl font-semibold mb-4 bg-[#f6fdd5]">
                 Необходимо {" "} 
                 <Link to='/register' className="text-blue-500 hover:underline">
                     зарегестрироваться
@@ -61,7 +61,7 @@ const Cart = () => {
 
     return (
         <>
-            <div className="container flex justify-around items-start flex-wrap mx-auto mt-8">
+            <div className="container flex justify-around items-start flex-wrap mx-auto mt-8 bg-[#f6fdd5] p-4 text-black">
                 {cart.count === 0 ? (<div>Ваша корзина пуста. <Link to='/shop' className="text-blue-500 hover:underline">В магазин</Link></div>) : (
                     <>
                         <div className="flex flex-col w-[80%]">
@@ -70,7 +70,7 @@ const Cart = () => {
                                 cart.cart.map((item) => (
                                     <div key={item.ID} className="flex items-center mb-[1rem] pb-2">
                                         <div className="w-[5rem] h-[5rem]">
-                                            <img src={item.CAR_IMAGE} alt={item.NAME} className="w-full h-full object-cover rounded" />
+                                            <img src={item.PRODUCT_IMAGE} alt={item.NAME} className="w-full h-full object-cover rounded" />
                                         </div>
 
                                         <div className="flex-1 ml-4">
@@ -78,7 +78,7 @@ const Cart = () => {
                                                 {item.NAME}
                                             </Link>
 
-                                            <div className="mt-2 text-white font-bold">{item.PRICE} ₽</div>
+                                            <div className="mt-2 text-black font-bold">{item.PRICE} ₽</div>
                                         </div>
 
                                         <div className="w-24">
@@ -87,7 +87,7 @@ const Cart = () => {
                                                 value={item.QUANTITY} 
                                                 onChange={(e) => addToCartHandler(item, Number(e.target.value))}
                                             >
-                                                {[...Array(item.IN_STOCK).keys()].map((x) => (
+                                                {[...Array(item.QUANTITY).keys()].map((x) => (
                                                     <option key={x + 1} value={x + 1}>
                                                         {x + 1}
                                                     </option>
@@ -115,7 +115,7 @@ const Cart = () => {
                                     </div>
 
                                     <button 
-                                        className="bg-green-500 mt-4 py-2 px-4 rounded-full text-lg w-full" 
+                                        className="bg-[#799400] mt-4 py-2 px-4 rounded-full text-lg w-full text-white" 
                                         disabled={cart.count === 0}
                                         onClick={checkoutHandler}
                                     >

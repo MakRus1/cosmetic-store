@@ -22,10 +22,10 @@ const Header = () => {
     }
 
     return (
-        <div className="container mx-auto p-4">
-            <div className="flex justify-center align-center md:flex md:space-x-4">
+        <div className="container mx-auto p-20">
+            <div className="flex justify-center align-center md:flex md:space-x-4 bg-[#f6fdd5] border border-[#799400]">
                 <div className="p-3">
-                <h1 className="text-2xl font-semibold mb-4">Кчау - надежный диллер автомобилей</h1>
+                    <h1 className="text-4xl text-black font-semibold mb-4 text-center">Cosmetics</h1>
                     <CarCarousel />
                 </div>
             </div>

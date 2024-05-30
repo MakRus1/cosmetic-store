@@ -6,7 +6,7 @@ import {
     useGetCarByIdQuery,
     useUploadCarImageMutation
 } from '../../redux/api/carApiSlice'
-import { useFetchModelsQuery } from '../../redux/api/modelApiSlice'
+import { useFetchMarksQuery } from '../../redux/api/markApiSlice'
 import { toast } from "react-toastify"
 
 const CarUpdate = () => {
@@ -14,16 +14,16 @@ const CarUpdate = () => {
 
     const {data: carData} = useGetCarByIdQuery(params.id)
 
-    const [image, setImage] = useState(carData?.CAR_IMAGE || '')
+    const [name, setName] = useState(carData?.NAME || '')
+    const [image, setImage] = useState(carData?.PRODUCT_IMAGE || '')
     const [price, setPrice] = useState(carData?.PRICE || '')
-    const [topSpeed, setTopSpeed] = useState(carData?.TOP_SPEED || '')
-    const [engineVolume, setEngineVolume] = useState(carData?.ENGINE_VOLUME || '')
-    const [model, setModel] = useState(carData?.SP_MODEL_ID || '')
-    const [inStock, setInStock] = useState(carData?.IN_STOCK || 0)
+    const [description, setDescription] = useState(carData?.DESCRIPTION || '')
+    const [manufacturer, setManufacturer] = useState(carData?.SP_MANUFACTURER_ID || '')
+    const [inStock, setInStock] = useState(carData?.QUANTITY || 0)
 
     const navigate = useNavigate()
 
-    const {data: models = []} = useFetchModelsQuery()
+    const {data: manufacturers = []} = useFetchMarksQuery()
     const [uploadCarImage] = useUploadCarImageMutation()
 
     const [updateCar] = useUpdateCarMutation()
@@ -31,12 +31,12 @@ const CarUpdate = () => {
 
     useEffect(() => {
         if (carData && carData.ID) {
-            setImage(carData.CAR_IMAGE)
+            setName(carData.NAME)
+            setImage(carData.PRODUCT_IMAGE)
             setPrice(carData.PRICE)
-            setTopSpeed(carData.TOP_SPEED)
-            setEngineVolume(carData.ENGINE_VOLUME)
-            setModel(carData.SP_MODEL_ID)
-            setInStock(carData.IN_STOCK)
+            setDescription(carData.DESCRIPTION)
+            setManufacturer(carData.SP_MANUFACTURER_ID)
+            setInStock(carData.QUANTITY)
         }
     }, [carData])
 
@@ -46,11 +46,11 @@ const CarUpdate = () => {
         try {
             const formData = new FormData()
             
+            formData.append('name', name)
             formData.append('image', image)
             formData.append('price', price)
-            formData.append('topSpeed', topSpeed)
-            formData.append('engineVolume', engineVolume)
-            formData.append('model', model)
+            formData.append('description', description)
+            formData.append('manufacturer', manufacturer)
             formData.append('inStock', inStock)
             
             const { data } = await updateCar({carId: params.id, formData})
@@ -60,7 +60,7 @@ const CarUpdate = () => {
                 return  
             }
 
-            toast.success(`Автомобиль успешно обновлен`) 
+            toast.success(`Продукт успешно обновлен`) 
             navigate('/admin/allcars')  
         } catch (error) {
             toast.error(error?.data?.message || error.error)    
@@ -69,7 +69,7 @@ const CarUpdate = () => {
 
     const handleDelete = async () => {
         try {
-            let answer = window.confirm('Вы уверены, что хотите удалить автомобиль?')
+            let answer = window.confirm('Вы уверены, что хотите удалить продукт?')
 
             if (!answer) return
 
@@ -80,7 +80,7 @@ const CarUpdate = () => {
                 return  
             }
 
-            toast.success(`Автомобиль успешно удален`) 
+            toast.success(`Продукт успешно удален`) 
             navigate('/admin/allcars')  
         } catch (error) {
             toast.error(error?.data?.message || error.error)    
@@ -101,11 +101,11 @@ const CarUpdate = () => {
     }
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto p-4 bg-[#f6fdd5] text-black">
             <div className="flex justify-center align-center md:flex md:space-x-4">
                 {/* <AdminMenu /> */}
                 <div className="md:w-3/4 p-3">
-                    <div className="h-12">Создать автомобиль</div>
+                    <div className="h-12">Обновить продукт</div>
 
                     {image && (
                         <div className="text-center">
@@ -114,7 +114,7 @@ const CarUpdate = () => {
                     )}
 
                     <div className="mb-3">
-                        <label className="border text-white px-4 block w-full text-center rounded-lg cursor-poiner font-bold py-11">
+                        <label className="border text-black px-4 block w-full text-center rounded-lg cursor-poiner font-bold py-11">
                             {image ? image.name : "Загрузить изображение"}
 
                             <input 
@@ -122,22 +122,30 @@ const CarUpdate = () => {
                                 name="image" 
                                 accept="image/*" 
                                 onChange={uploadFileHandler} 
-                                className={!image ? 'hidden' : "text-white"}
+                                className={!image ? 'hidden' : "text-black"}
                             />
                         </label>
                     </div>
                         
                     <div className="block">
-                        <label htmlFor="model block">Марка и модель</label> <br />
+                        <label htmlFor="model">Название</label> <br />
+                        <input 
+                            type="text" 
+                            className="p-4 mb-3 w-full border rounded-lg bg-[#f6fdd5] text-black"
+                            value={name}
+                            onChange={e => setName(e.target.value)} 
+                        />
+
+                        <label htmlFor="model block">Производитель</label> <br />
                         <select 
                             type="text" 
-                            className="p-4 mb-3 w-full border rounded-lg bg-[#101011] text-white"
-                            value={model}
-                            onChange={e => setModel(e.target.value)} 
+                            className="p-4 mb-3 w-full border rounded-lg bg-[#f6fdd5] text-black"
+                            value={manufacturer}
+                            onChange={e => setManufacturer(e.target.value)} 
                         >
-                            {models?.map((m) => (
+                            {manufacturers?.map((m) => (
                                 <option key={m.ID} value={m.ID}>
-                                    {m.MARK_NAME + " " + m.NAME}
+                                    {m.NAME}
                                 </option>
                             ))}
                         </select>
@@ -145,31 +153,23 @@ const CarUpdate = () => {
                         <label htmlFor="model block">Цена</label> <br />
                         <input 
                             type="number" 
-                            className="p-4 mb-3 w-full border rounded-lg bg-[#101011] text-white"
+                            className="p-4 mb-3 w-full border rounded-lg bg-[#f6fdd5] text-black"
                             value={price}
                             onChange={e => setPrice(e.target.value)} 
                         />
                 
-                        <label htmlFor="model">Максимальная скорость</label> <br />
+                        <label htmlFor="model">Описание</label> <br />
                         <input 
-                            type="number" 
-                            className="p-4 mb-3 w-full border rounded-lg bg-[#101011] text-white"
-                            value={topSpeed}
-                            onChange={e => setTopSpeed(e.target.value)} 
-                        />
-
-                        <label htmlFor="model block">Объем двигателя</label> <br />
-                        <input 
-                            type="number" 
-                            className="p-4 mb-3 w-full border rounded-lg bg-[#101011] text-white"
-                            value={engineVolume}
-                            onChange={e => setEngineVolume(e.target.value)} 
+                            type="text" 
+                            className="p-4 mb-3 w-full border rounded-lg bg-[#f6fdd5] text-black"
+                            value={description}
+                            onChange={e => setDescription(e.target.value)} 
                         />
 
                         <label htmlFor="model block">Количество на складе</label> <br />
                         <input 
                             type="number" 
-                            className="p-4 mb-3 w-full border rounded-lg bg-[#101011] text-white"
+                            className="p-4 mb-3 w-full border rounded-lg bg-[#f6fdd5] text-black"
                             value={inStock}
                             onChange={e => setInStock(e.target.value)} 
                         />

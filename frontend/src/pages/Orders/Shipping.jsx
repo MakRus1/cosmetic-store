@@ -21,14 +21,14 @@ const Shipping = () => {
     }
 
     return (
-        <div className="container mx-auto mt-10">
+        <div className="container mx-auto mt-10 bg-[#f6fdd5] text-black p-8">
             <ProgressSteps step1 step2 />
 
-            <div className="mt-[10rem] flex justify-around items-center flex-wrap">
+            <div className="mt-[3rem] flex justify-around items-center flex-wrap">
                 <form onSubmit={submitHandler} className="w-[40rem]">
                     <h1 className="text-2xl font-semibold mb-4">Доставка</h1>
                     <div className="mb-4">
-                        <label className="block text-white mb-2">Адрес</label>
+                        <label className="block text-black mb-2">Адрес</label>
                         <input 
                             type="text" 
                             className="w-full p-2 border rounded" 
@@ -39,7 +39,7 @@ const Shipping = () => {
                         />
                     </div>
 
-                    <button className="bg-green-500 text-white py-2 px-4 rounded-full text-lg w-full" type="submit">Продолжить</button>
+                    <button className="bg-[#799400] text-white py-2 px-4 rounded-full text-lg w-full" type="submit">Продолжить</button>
                 </form>
             </div>
         </div>

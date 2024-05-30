@@ -16,7 +16,7 @@ const HeartIcon = ({car}) => {
         refetch()
     }, [refetch])
 
-    const isFavorite = car.ID === data?.CAR_ID
+    const isFavorite = car.ID === data?.PRODUCT_ID
 
     const [createFavorite] = useCreateFavoriteMutation()
     const [removeFavorite] = useRemoveFavoriteMutation()
@@ -33,7 +33,7 @@ const HeartIcon = ({car}) => {
 
     return (
         <div className="absolute top-2 right-5 cursor-pointer">
-            {isFavorite ? (<FaHeart onClick={toggleUnfavorite} className="text-red-500" />) : <FaRegHeart onClick={toggleFavorite} className="text-white" />}
+            {isFavorite ? (<FaHeart onClick={toggleUnfavorite} className="text-red-500" />) : <FaRegHeart onClick={toggleFavorite} className="text-black" />}
         </div>
     )
 }

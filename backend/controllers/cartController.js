@@ -13,7 +13,7 @@ const createCartItem = asyncHandler(async (req, res) => {
         const cartItem = await db.query(`
             update or insert into cart (
                 user_id,
-                car_id,
+                product_id,
                 quantity
             ) values (
                 ${decoded.userId}, 
@@ -21,7 +21,7 @@ const createCartItem = asyncHandler(async (req, res) => {
                 ${count}
             ) matching (
                 user_id,
-                car_id
+                product_id
             ) returning *`)
 
         if (!cartItem[0]) {
@@ -32,7 +32,7 @@ const createCartItem = asyncHandler(async (req, res) => {
 
     } catch(error) {
         res.status(400)
-        throw new Error("Не существует такого автомобиля")
+        throw new Error("Не существует такого продукта")
     }
 })
 
@@ -42,7 +42,7 @@ const removeCartItem = asyncHandler(async (req, res) => {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
-        const cartItem = await db.query(`delete from cart where car_id = ${req.params.carId} and user_id = ${decoded.userId} returning *`)
+        const cartItem = await db.query(`delete from cart where product_id = ${req.params.carId} and user_id = ${decoded.userId} returning *`)
         res.json(cartItem)
     } catch(error) {
         res.status(400)
@@ -60,13 +60,10 @@ const fetchCart = asyncHandler(async (req, res) => {
 
         const cart = await db.query(`
             select 
-                mark.name || ' ' || model.name as name,
-                c.*,
+                p.*,
                 fc.quantity 
             from cart fc 
-            left join cars c on c.id = fc.car_id 
-            left join sp_model model on model.id = c.sp_model_id
-            left join sp_mark mark on mark.id = model.sp_mark_id 
+            left join product p on p.id = fc.product_id 
             where fc.user_id = ${decoded.userId}`)  
 
         res.json({count: parseInt(count[0].COUNT), cart: cart})    
@@ -82,7 +79,7 @@ const fetchIsInCart = asyncHandler(async (req, res) => {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
-        const cartItem = await db.query(`select first 1 car_id from cart where car_id = ${req.params.carId} and user_id = ${decoded.userId}`)
+        const cartItem = await db.query(`select first 1 product_id from cart where product_id = ${req.params.carId} and user_id = ${decoded.userId}`)
 
         res.json(cartItem[0])    
     } catch (error) {

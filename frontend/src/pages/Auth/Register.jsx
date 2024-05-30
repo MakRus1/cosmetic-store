@@ -50,7 +50,7 @@ const Register = () => {
     }
 
     return <section className="pl-[10rem] flex flex-wrap">
-        <div className="mr-[4rem] mt-[5rem]">
+        <div className="mr-[4rem] mt-[5rem] bg-[#f6fdd5] border border-[#799400] p-5 text-black">
             <ht className="text-2xl font-semibold mb-4">Регистрация</ht>
 
             <form onSubmit={submitHandler} className="container w-[40rem]">
@@ -59,7 +59,7 @@ const Register = () => {
                     <input 
                         type="text" 
                         id='username' 
-                        className="mt-1 p-2 border rounded w-full bg-black text-white" 
+                        className="mt-1 p-2 border rounded w-full bg-[#f6fdd5] text-black" 
                         value={username}
                         onChange={e => setUsername(e.target.value)} />
                 </div>
@@ -69,7 +69,7 @@ const Register = () => {
                     <input 
                         type="email" 
                         id='email' 
-                        className="mt-1 p-2 border rounded w-full bg-black text-white" 
+                        className="mt-1 p-2 border rounded w-full bg-[#f6fdd5] text-black" 
                         value={email}
                         onChange={e => setEmail(e.target.value)} />
                 </div>
@@ -79,7 +79,7 @@ const Register = () => {
                     <input 
                         type="password" 
                         id='password' 
-                        className="mt-1 p-2 border rounded w-full bg-black text-white" 
+                        className="mt-1 p-2 border rounded w-full bg-[#f6fdd5] text-black" 
                         value={password}
                         onChange={e => setPassword(e.target.value)} />
                 </div>
@@ -89,7 +89,7 @@ const Register = () => {
                     <input 
                         type="password" 
                         id='confirmPassword' 
-                        className="mt-1 p-2 border rounded w-full bg-black text-white" 
+                        className="mt-1 p-2 border rounded w-full bg-[#f6fdd5] text-black" 
                         value={confirmPassword}
                         onChange={e => setConfirmPassword(e.target.value)} />
                 </div>
